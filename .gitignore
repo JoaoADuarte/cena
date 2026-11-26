@@ -1,0 +1,12 @@
+node_modules/
+dist/
+release/
+release-anteriores/
+*.exe
+*.log
+.env
+.env.*
+*.cena
+*.db
+*.db-wal
+*.db-shm

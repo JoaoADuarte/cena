@@ -1,0 +1,123 @@
+{
+  "name": "cena-editor",
+  "productName": "Cena",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Editor de vídeo desktop com timeline multipista, preview em tempo real e exportação via FFmpeg.",
+  "author": "Cena",
+  "main": "electron/main.cjs",
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "build": "tsc --noEmit && vite build",
+    "typecheck": "tsc --noEmit",
+    "start": "electron .",
+    "smoke": "node scripts/smoke.mjs",
+    "smoke:packaged": "node scripts/smoke.mjs --packaged",
+    "smoke:portable": "node scripts/smoke.mjs --portable",
+    "icon": "node scripts/make-icon.mjs",
+    "dist": "npm run build && node scripts/dist.mjs"
+  },
+  "allowScripts": {
+    "electron": true,
+    "ffmpeg-static": true,
+    "esbuild": true
+  },
+  "dependencies": {
+    "@huggingface/transformers": "^4.3.1",
+    "ffmpeg-static": "^5.3.0",
+    "ffprobe-static": "^3.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.2.1",
+    "electron": "^45.2.1",
+    "electron-builder": "^26.18.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.5",
+    "zustand": "^5.0.16"
+  },
+  "build": {
+    "appId": "app.cena.editor",
+    "productName": "Cena",
+    "copyright": "Cena",
+    "directories": {
+      "output": "release",
+      "buildResources": "build"
+    },
+    "files": [
+      "dist/**",
+      "electron/**",
+      "package.json",
+      "!node_modules/ffprobe-static/bin/darwin/**",
+      "!node_modules/ffprobe-static/bin/linux/**",
+      "!node_modules/ffprobe-static/bin/win32/ia32/**",
+      "!node_modules/onnxruntime-web/**",
+      "!node_modules/onnxruntime-node/bin/napi-v6/{darwin,linux}/**",
+      "!node_modules/onnxruntime-node/bin/napi-v6/win32/arm64/**",
+      "!node_modules/@huggingface/transformers/dist/{transformers.js,transformers.min.js,transformers.web.js,transformers.web.min.js,*.wasm,*.map}",
+      "!node_modules/@huggingface/transformers/src/**",
+      "!node_modules/@huggingface/transformers/types/**"
+    ],
+    "asarUnpack": [
+      "node_modules/ffmpeg-static/ffmpeg.exe",
+      "node_modules/ffprobe-static/bin/win32/x64/ffprobe.exe",
+      "node_modules/onnxruntime-node/bin/napi-v6/win32/x64/**",
+      "node_modules/@img/**",
+      "node_modules/sharp/**"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "zip",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "artifactName": "Cena-${version}-win-x64.${ext}",
+      "icon": "build/icon.ico",
+      "fileAssociations": [
+        {
+          "ext": "cena",
+          "name": "Projeto Cena",
+          "description": "Projeto de vídeo do Cena",
+          "icon": "build/icon.ico"
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Cena",
+      "uninstallDisplayName": "Cena",
+      "installerLanguages": [
+        "pt_BR"
+      ],
+      "language": "1046",
+      "artifactName": "Cena-Setup-${version}.exe"
+    },
+    "portable": {
+      "artifactName": "Cena-Portatil-${version}.exe",
+      "unpackDirName": "Cena-Portatil"
+    }
+  }
+}
